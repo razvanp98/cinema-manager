@@ -1,0 +1,30 @@
+{
+  "name": "pai",
+  "version": "1.0.0",
+  "description": "Application for managing movie database",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/razvanp98/pai.git"
+  },
+  "author": "Razvan Papurica",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/razvanp98/pai/issues"
+  },
+  "homepage": "https://github.com/razvanp98/pai#readme",
+  "dependencies": {
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1",
+    "nodemon": "^1.19.4",
+    "path": "^0.12.7",
+    "router": "^1.3.3"
+  }
+}
