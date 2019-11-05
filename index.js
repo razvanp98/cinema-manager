@@ -6,7 +6,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
     let questions = {
         _question: [
             {id: 1, _body: "Unde pula meeeaaa esti?"},
@@ -15,8 +15,13 @@ app.get('/', (req, res) => {
         ]
     }
     res.render('index', {data: questions});
-
 });
+
+app.get('/', (req, res) => {
+    res.redirect('/home');
+});
+
+// Static files setter
 
 app.use('/static', express.static(path.join(__dirname, '/public')));
 app.listen(80);
