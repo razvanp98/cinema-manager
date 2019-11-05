@@ -1,7 +1,6 @@
 const path = require('path');
 const express = require('express');
 const sql = require('mysql');
-const ejs = require('ejs');
 
 const app = express();
 
