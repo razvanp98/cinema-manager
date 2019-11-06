@@ -1,0 +1,18 @@
+body{
+    background-color: rgba(0,0,0, 0.1);
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.nav-wrapper{
+    background-color: green;
+}
+
+.card-title{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.card-title p{
+    margin: 0;
+    color: white;
+    font-weight: bold;
+}
