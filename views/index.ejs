@@ -1,14 +1,38 @@
 <html>
 <head>
-    <title>Untitled</title>
+    <title>Under maintainence</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/static/design.css" rel="stylesheet/css">
 </head>
 <body>
-    <h1> / has been requested.</h1>
-
-    <ul>
-        <% data._question.forEach(item => { %>
-            <li>Question <%= item.id %> <%= item._body %></li>
-        <% }) %>
-    </ul>
+        <!--Navbar-->
+        <nav>
+            <div class="nav-wrapper">
+                <a href="/movies" class="brand-logo">Movie Slideshow</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/movies">All Movies</a></li>
+                    <li><a href="/categories">Categories</a></li>
+                </ul>
+            </div>
+        </nav>
+                    
+    <div class="row">
+        <div class="col s12 m4 offset-m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="/static/img/merry-christmas.jpg">
+              <span class="card-title">Card Title</span>
+              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">edit</i></a>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 </html>

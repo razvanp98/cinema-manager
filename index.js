@@ -8,15 +8,15 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-    let questions = {
-        _question: [
-            {id: 1, _body: "Unde pula meeeaaa esti?"},
-            {id: 2, _body: "Unde mortii ma-tii ai pus cana aia?"},
-            {id: 3, _body: "Unde sloboz parchezi?"}
-        ]
-    }
-    res.render('index', {data: questions});
+    res.redirect('/home');
+});
 
+app.get('/home', (req, res) => {
+    res.render('index');
+});
+
+app.get('/movies', (req, res) => {
+    res.redirect('/home');
 });
 
 app.use('/static', express.static(path.join(__dirname, '/public')));
