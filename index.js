@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/movies', (req, res) => {
-    res.render('index');
+    res.render('movies');
 });
 
 app.get('/categories', (req, res) => {
