@@ -33,7 +33,79 @@
           <li><a href="/categories">Categories</a></li>
         </ul>
 
-  <div class="row" style="margin-top: 1vh;">
+  <!-- Modal Trigger -->
+  <div class="row center">
+  <a class="btn-large btn-floating waves-effect waves-light btn modal-trigger teal darken-2" href="#addModal" style="margin-top: 5vh;"><i class="material-icons">add</i></a>
+  </div>
+  <!-- Modal Structure -->
+  <div id="addModal" class="modal">
+    <div class="modal-content">
+      <h4 class="center">Add a new movie</h4>
+      <div class="row">
+        <form class="col m10 s12" action="/add" method="post">
+          <div class="row">
+            <div class="input-field m6 s10 offset-s1">
+                <input placeholder="Title" id="title" type="text" class="validate" name="title" required>
+                <label for="title">Title</label>
+            </div>
+          </div>
+
+          <div class="row">
+              <div class="input-field m6 s10 offset-s1">
+                  <input placeholder="Year of production" id="year" type="text" name="year" class="validate" required>
+                  <label for="year">Year</label>
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field m6 s10 offset-s1">
+                    <input placeholder="Director" id="director" type="text"  name="director" class="validate" required>
+                    <label for="director">Director</label>
+                </div>
+            </div>
+
+              <div class="row">
+                  <div class="input-field m6 s10 offset-s1">
+                      <input placeholder="Country" id="country" type="text" name="country" class="validate" required>
+                      <label for="country">Country</label>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="input-field m6 s10 offset-s1">
+                    <textarea placeholder="Description" id="description" name="description" class="materialize-textarea"></textarea>
+                    <label for="description">Description</label>
+                    </div>
+              </div>
+
+              <div class="row">
+                  <label>Add movie cover</label>
+                  <div class = "file-field input-field">
+                    <div class = "btn">
+                     <span>Browse</span>
+                     <input type = "file" />
+                    </div>
+                  
+                    <div class = "file-path-wrapper">
+                     <input class = "file-path validate" type = "text"
+                        placeholder = "Upload file">
+                    </div>
+                </div>
+              </div>
+
+              <div class="row center" style="margin-top: 25px;">
+                  <div class="input-field m8 s10 offset-s1">
+                      <button class="btn btn-large waves-effect waves-light" type="submit" name="image">Add
+                          <i class="material-icons right">add</i>
+                      </button>
+                  </div>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 10vh;">
     <% data.forEach(function(item) { %>
     <div class="col s12 m4" style="margin-top: 0.5vh;">
       <div class="card">
@@ -50,11 +122,19 @@
     <% }); %>
   </div>
 
+  <div id="addModal" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+  </div>
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <script>
      $(document).ready(function(){
+        $('.modal').modal();
         $('#mobile-nav').sidenav();
       });
   </script>

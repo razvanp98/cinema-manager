@@ -1,32 +1,29 @@
 class Movie{
-    Movie(title, year, director, genre, description){
+    constructor(id, title, year, director, genre, description, country, img_hash){
+        this.id = id;
         this.title = title;
         this.year = year;
-        this.genre = genre;
         this.director = director;
+        this.genre = genre;
         this.description = description;
+        this.country = country;
+        this.imgHash = img_hash;
     }
 
-    // Getters
+    // generate JSON object
+    toObject(){
+        let jsonObject = {
+            id: this.id,
+            title: this.title,
+            year: this.year,
+            director: this.director,
+            genre: this.genre,
+            description: this.description,
+            country: this.country,
+            imgHash: this.imgHash
+        }
 
-    getTitle(){
-        return this.title;
-    }
-
-    getYear(){
-        return this.year;
-    }
-
-    getGenre(){
-        return this.genre;
-    }
-
-    getDirector(){
-        return this.director;
-    }
-
-    getDescription(){
-        return this.description;
+        return jsonObject;
     }
 }
 

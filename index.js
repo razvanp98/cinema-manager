@@ -1,6 +1,6 @@
 //Import Classes under ./models
 
-const Movie = require('./model/Movie');
+var Movie = require('./model/Movie');
 
 // MODIFY MySQL CONFIGURATION KEY
 
@@ -14,16 +14,13 @@ const MYSQL_CREDENTIALS_AUTH = {
 const path = require('path');
 const express = require('express');
 const sql = require('mysql');
-const size = require('image-size');
+const jimp = require('jimp');
+const parser = require('body-parser');
 
 const app = express();
 
-size('./public/img/18dd27275fe556e1079f47431f462d86.jpg', (err, dimension) => {
-    if(err) throw err;
-    console.log(dimension.width, dimension.height);
-});
-
 app.set('view engine', 'ejs');
+app.use(parser.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
     res.redirect('/movies');
@@ -33,26 +30,16 @@ app.get('/movies', (req, res) => {
     let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
 
     var data = [];
-    var obj = {};
 
     conn.connect(function(error){
         if(error) throw error;
-        console.log("MySQL server connected!");
         conn.query("SELECT *FROM theatre.movies;", function(err, result){
             if(err) throw err;
             result.forEach((item) => {
-                obj = {
-                    id: item.id_movie,
-                    title: item.title,
-                    director: item.director,
-                    year: item.year,
-                    description: item.description, 
-                    country: item.origin_country,
-                    imgHash: item.img_hash
-                };
-                data.push(obj);
+                var movie = new Movie(item.id_movie, item.title, item.year, item.director, null, item.description, item.origin_country, item.img_hash);
+                console.log(movie.toObject());
+                data.push(movie.toObject());
             });
-            console.log(data);
             res.render('movies', {data: data});
         });
     });
@@ -61,6 +48,19 @@ app.get('/movies', (req, res) => {
 app.get('/categories', (req, res) => {
     res.render('categories');
 });
+
+// Add movie path
+
+app.post('/add', (req, res) => {
+    let post_obj = {
+        title: req.body.title,
+        year: req.body.year,
+        director: req.body.director,
+        description: req.body.description,
+    };
+    console.log(post_obj);
+    res.redirect('/');
+}); 
 
 // Virtual mounting point set to /static for images, CSS, JS scripts
 
