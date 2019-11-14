@@ -20,11 +20,13 @@
   },
   "homepage": "https://github.com/razvanp98/pai#readme",
   "dependencies": {
-    "ejs": "^2.7.1",
+    "ejs": "^2.7.2",
     "express": "^4.17.1",
+    "image-size": "^0.8.3",
     "mysql": "^2.17.1",
     "nodemon": "^1.19.4",
     "path": "^0.12.7",
+    "resize-optimize-images": "^1.1.0",
     "router": "^1.3.3"
   }
 }

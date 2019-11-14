@@ -10,16 +10,16 @@
     <!-- AJAX GOOGLE CDN Library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!--Google Fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/static/design.css" rel="stylesheet">
     
 </head>
-<body>
+<body class="grey lighten-2">
         <!--Navbar-->
         <nav>
-          <div class="nav-wrapper">
-            <a href="/" class="brand-logo">Movies Library</a>
+          <div class="nav-wrapper teal">
+            <a href="/" class="brand-logo" style="margin-left: 20px;">Movies Library</a>
             <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                     <li class="active"><a href="/">All Movies</a></li>
@@ -33,21 +33,21 @@
           <li><a href="/categories">Categories</a></li>
         </ul>
 
-  <p><%=data.id %> <%=data.nume %> <%=data.prenume %><%=data.varsta %></p>
-
-  <div class="row">
-    <div class="col s12 m3 offset-m4">
+  <div class="row" style="margin-top: 1vh;">
+    <% data.forEach(function(item) { %>
+    <div class="col s12 m4" style="margin-top: 0.5vh;">
       <div class="card">
         <div class="card-image">
-          <img src="/static/img/merry-christmas.jpg">
-          <span class="card-title"><p>RED DEAD REDEMPTION 2</p></span>
+          <img class="movie-poster" src="/static/img/<%=item.imgHash%>.jpg">
+          <span class="card-title"><p><%=item.title%></p></span>
           <a class="btn-floating halfway-fab waves-effect waves-light red" id="card-edit"><i class="material-icons">edit</i></a>
         </div>
         <div class="card-content">
-          <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+          <p><%=item.description%></p>
         </div>
       </div>
     </div>
+    <% }); %>
   </div>
 
 

@@ -8,14 +8,20 @@ const MYSQL_CREDENTIALS_AUTH = {
     host: 'localhost',
     user: 'root',
     password: 'bucuresti98',
-    database: 'test'
+    database: 'theatre'
 };
 
 const path = require('path');
 const express = require('express');
 const sql = require('mysql');
+const size = require('image-size');
 
 const app = express();
+
+size('./public/img/18dd27275fe556e1079f47431f462d86.jpg', (err, dimension) => {
+    if(err) throw err;
+    console.log(dimension.width, dimension.height);
+});
 
 app.set('view engine', 'ejs');
 
@@ -26,19 +32,26 @@ app.get('/', (req, res) => {
 app.get('/movies', (req, res) => {
     let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
 
-    var data = {};
+    var data = [];
+    var obj = {};
 
     conn.connect(function(error){
         if(error) throw error;
         console.log("MySQL server connected!");
-        conn.query("SELECT *FROM test.test_table;", function(err, result){
+        conn.query("SELECT *FROM theatre.movies;", function(err, result){
             if(err) throw err;
-            data = {
-                id: result[0].id,
-                nume: result[0].nume,
-                prenume: result[0].prenume,
-                varsta: result[0].varsta
-            };
+            result.forEach((item) => {
+                obj = {
+                    id: item.id_movie,
+                    title: item.title,
+                    director: item.director,
+                    year: item.year,
+                    description: item.description, 
+                    country: item.origin_country,
+                    imgHash: item.img_hash
+                };
+                data.push(obj);
+            });
             console.log(data);
             res.render('movies', {data: data});
         });
