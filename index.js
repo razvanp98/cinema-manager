@@ -14,10 +14,28 @@ const MYSQL_CREDENTIALS_AUTH = {
 const path = require('path');
 const express = require('express');
 const sql = require('mysql');
-const jimp = require('jimp');
 const parser = require('body-parser');
+const multer = require('multer');
+const md5 = require('md5');
+const jimp = require('jimp');
 
 const app = express();
+
+// Set storage for uploading covers
+
+var storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, path.join(__dirname, '/public/img'));
+    },
+    filename: function(req, file, cb){
+        // Generate filename stored in /public/img
+        // Generated hash is stored in database
+        let name = md5(Date.now() + file.originalname);
+        cb(null, name + path.extname(file.originalname));
+    }
+});
+
+var upload = multer({storage: storage});
 
 app.set('view engine', 'ejs');
 app.use(parser.urlencoded({extended: true}));
@@ -27,17 +45,16 @@ app.get('/', (req, res) => {
 });
 
 app.get('/movies', (req, res) => {
-    let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
 
     var data = [];
+    let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
 
     conn.connect(function(error){
         if(error) throw error;
         conn.query("SELECT *FROM theatre.movies;", function(err, result){
             if(err) throw err;
             result.forEach((item) => {
-                var movie = new Movie(item.id_movie, item.title, item.year, item.director, null, item.description, item.origin_country, item.img_hash);
-                console.log(movie.toObject());
+                let movie = new Movie(item.id_movie, item.title, item.year, item.director, null, item.description, item.origin_country, item.img_hash);
                 data.push(movie.toObject());
             });
             res.render('movies', {data: data});
@@ -51,14 +68,33 @@ app.get('/categories', (req, res) => {
 
 // Add movie path
 
-app.post('/add', (req, res) => {
-    let post_obj = {
-        title: req.body.title,
-        year: req.body.year,
-        director: req.body.director,
-        description: req.body.description,
-    };
-    console.log(post_obj);
+app.post('/add', upload.single('cover'), (req, res) => {
+
+    let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
+
+    conn.connect(function(err){
+        if(err) throw err;
+        let title = req.body.title;
+        let year = req.body.year;
+        let director = req.body.director;
+        let description = req.body.description;
+        let country = req.body.country;
+        let imgHash = req.file.filename;
+
+        // Resize the image to fit the card and overwrite the image
+
+        jimp.read(path.join(__dirname, '/public/img/', imgHash), (err, img) => {
+            if(err) throw err;
+            img.resize(600, 800).quality(80).write(imgHash);
+        }); 
+
+        conn.query(`INSERT INTO theatre.movies (title, year, director, description, origin_country, img_hash) VALUES ('${title}', ${year}, 
+        '${director}', '${description}', '${country}', '${imgHash}');`, (err) => {
+
+            if(err) throw err;
+            console.log("Record added into database!");
+        });
+    });
     res.redirect('/');
 }); 
 
