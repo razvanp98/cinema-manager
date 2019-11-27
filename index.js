@@ -83,11 +83,6 @@ app.post('/add', upload.single('cover'), (req, res) => {
 
         // Resize the image to fit the card and overwrite the image
 
-        jimp.read(path.join(__dirname, '/public/img/', imgHash), (err, img) => {
-            if(err) throw err;
-            img.resize(600, 800).quality(80).write(imgHash);
-        }); 
-
         conn.query(`INSERT INTO theatre.movies (title, year, director, description, origin_country, img_hash) VALUES ('${title}', ${year}, 
         '${director}', '${description}', '${country}', '${imgHash}');`, (err) => {
 
@@ -101,4 +96,4 @@ app.post('/add', upload.single('cover'), (req, res) => {
 // Virtual mounting point set to /static for images, CSS, JS scripts
 
 app.use('/static', express.static(path.join(__dirname, '/public')));
-app.listen(80);
+app.listen(8080);
