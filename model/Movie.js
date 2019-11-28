@@ -4,7 +4,11 @@ class Movie{
         this.title = title;
         this.year = year;
         this.director = director;
-        this.genre = genre;
+        this.genre = [];
+        // Build genre array
+        genre.forEach((item) => {
+            this.genre.push(item);
+        });
         this.description = description;
         this.country = country;
         this.imgHash = img_hash;

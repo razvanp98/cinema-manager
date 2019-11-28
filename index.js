@@ -44,25 +44,35 @@ app.get('/', (req, res) => {
     res.redirect('/movies');
 });
 
+var data = [];
+var genres = [];
+var movie_genre = [];
+
 app.get('/movies', (req, res) => {
 
-    var data = [];
-    var genres = [];
-    let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
+    var conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
 
-    conn.connect(function(error){
-        if(error) throw error;
+    conn.connect((err) => {
+        if(err) throw err;
     });
 
-    conn.query("SELECT *FROM theatre.movies;", function(err, result){
+    conn.query("SELECT *FROM theatre.movies;", (err, result) => {
         if(err) throw err;
+
         result.forEach((item) => {
-            let movie = new Movie(item.id_movie, item.title, item.year, item.director, null, item.description, item.origin_country, item.img_hash);
-            data.push(movie.toObject());
+            conn.query(`SELECT *FROM theatre.movie_genre WHERE id_movie = ${item.id_movie};`, (err, result) => {
+                if(err) throw err;
+
+                result.forEach((genre) => {
+                    movie_genre.push(genre.id_genre);
+                });
+
+                let movie = new Movie(item.id_movie, item.title, item.year, item.director, movie_genre, item.description, item.origin_country, item.img_hash);
+                data.push(movie.toObject());  
+            });
         });
     });
 
-    // Get genre from database and send it to index.ejs (displayed in select input in form)
     conn.query("SELECT *FROM theatre.genres", (err, result) => {
         if(err) throw err;
         result.forEach((item) => {
@@ -70,18 +80,21 @@ app.get('/movies', (req, res) => {
                 'id': item.id_genre,
                 'genre_name': item.name
             }
-
             genres.push(genre);
         });
-        res.render('movies', {data: data, genres: genres});
     });
+
+    res.render("movies.ejs", {data: data, genres: genres});
+    data = [];
+    movie_genre = [];
+    genres = [];
 });
 
 app.get('/categories', (req, res) => {
     res.render('categories');
 });
 
-// Add movie path
+// '/add' path
 
 app.post('/add', upload.single('cover'), (req, res) => {
 
