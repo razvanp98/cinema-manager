@@ -116,7 +116,11 @@
           <a class="btn-floating halfway-fab waves-effect waves-light red" id="card-edit"><i class="material-icons">edit</i></a>
         </div>
         <div class="card-content">
-          <p><%=item.description%></p>
+          <blockquote><%=item.description%></blockquote>
+          <p class="movie-card-titles">Year: <span class="movie-card-values"><%=item.year%></span></p>
+          <p class="movie-card-titles">Country: <span class="movie-card-values"><%=item.country%></span></p>
+          <p class="movie-card-titles">Director: <span class="movie-card-values"><%=item.director%></span></p>
+          <p class="movie-card-titles">Genre: <span class="movie-card-values"><%=item.genre%></span></p>
         </div>
       </div>
     </div>
