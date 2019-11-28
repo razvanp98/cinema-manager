@@ -1,8 +1,6 @@
-//Import Classes under ./models
-
 var Movie = require('./model/Movie');
 
-// MODIFY MySQL CONFIGURATION KEY
+// MODIFY MySQL CONFIGURATION CREDENTIALS
 
 const MYSQL_CREDENTIALS_AUTH = {
     host: 'localhost',
@@ -17,7 +15,6 @@ const sql = require('mysql');
 const parser = require('body-parser');
 const multer = require('multer');
 const md5 = require('md5');
-const jimp = require('jimp');
 
 const app = express();
 
@@ -40,6 +37,9 @@ var upload = multer({storage: storage});
 app.set('view engine', 'ejs');
 app.use(parser.urlencoded({extended: true}));
 
+// ROUTING BELOW
+// =====================================>
+
 app.get('/', (req, res) => {
     res.redirect('/movies');
 });
@@ -47,18 +47,33 @@ app.get('/', (req, res) => {
 app.get('/movies', (req, res) => {
 
     var data = [];
+    var genres = [];
     let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
 
     conn.connect(function(error){
         if(error) throw error;
-        conn.query("SELECT *FROM theatre.movies;", function(err, result){
-            if(err) throw err;
-            result.forEach((item) => {
-                let movie = new Movie(item.id_movie, item.title, item.year, item.director, null, item.description, item.origin_country, item.img_hash);
-                data.push(movie.toObject());
-            });
-            res.render('movies', {data: data});
+    });
+
+    conn.query("SELECT *FROM theatre.movies;", function(err, result){
+        if(err) throw err;
+        result.forEach((item) => {
+            let movie = new Movie(item.id_movie, item.title, item.year, item.director, null, item.description, item.origin_country, item.img_hash);
+            data.push(movie.toObject());
         });
+    });
+
+    // Get genre from database and send it to index.ejs (displayed in select input in form)
+    conn.query("SELECT *FROM theatre.genres", (err, result) => {
+        if(err) throw err;
+        result.forEach((item) => {
+            genre = {
+                'id': item.id_genre,
+                'genre_name': item.name
+            }
+
+            genres.push(genre);
+        });
+        res.render('movies', {data: data, genres: genres});
     });
 });
 
@@ -74,24 +89,40 @@ app.post('/add', upload.single('cover'), (req, res) => {
 
     conn.connect(function(err){
         if(err) throw err;
-        let title = req.body.title;
-        let year = req.body.year;
-        let director = req.body.director;
-        let description = req.body.description;
-        let country = req.body.country;
-        let imgHash = req.file.filename;
+    });
 
-        // Resize the image to fit the card and overwrite the image
+    var title = req.body.title;
+    let year = req.body.year;
+    let director = req.body.director;
+    let description = req.body.description;
+    let country = req.body.country;
+    let imgHash = req.file.filename;
+    let genre = req.body.genres;
 
-        conn.query(`INSERT INTO theatre.movies (title, year, director, description, origin_country, img_hash) VALUES ('${title}', ${year}, 
+    conn.query(`INSERT INTO theatre.movies (title, year, director, description, origin_country, img_hash) VALUES ('${title}', ${year}, 
         '${director}', '${description}', '${country}', '${imgHash}');`, (err) => {
-
             if(err) throw err;
             console.log("Record added into database!");
-        });
+
+            // Get generated movie ID
+            conn.query(`SELECT *FROM theatre.movies WHERE title = '${title}';`, (err, result) =>{
+                if(err) throw err;
+                var id = result[0].id_movie;
+
+                // Inserting into movie_genre table movie id for every genre selected in modal
+                genre.forEach((item) => {
+                    conn.query(`INSERT INTO theatre.movie_genre (id_movie, id_genre) VALUES (${id}, ${item});`, (err) => {
+                        if(err) throw err;
+                    });
+                });
+            });
     });
+
     res.redirect('/');
 }); 
+
+// END ROUTING
+// <===============================
 
 // Virtual mounting point set to /static for images, CSS, JS scripts
 

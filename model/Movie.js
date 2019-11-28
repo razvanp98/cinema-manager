@@ -20,7 +20,7 @@ class Movie{
             genre: this.genre,
             description: this.description,
             country: this.country,
-            imgHash: this.imgHash
+            imgHash: this.imgHash 
         }
 
         return jsonObject;

@@ -72,6 +72,19 @@
               </div>
 
               <div class="row">
+                <div class="input-field m6 s10 offset-s1">
+                    <select name="genres" multiple>
+                      <option value="" disabled>Choose genres</option>
+                      <%genres.forEach((item) => { %>
+                      <option value="<%=item.id%>"><%=item.genre_name%></option>
+                      <% }); %>
+                     
+                    </select>
+                    <label>Genre</label>
+                </div>
+              </div>
+
+              <div class="row">
                   <div class="input-field m6 s10 offset-s1">
                     <textarea placeholder="Description" id="description" name="description" class="materialize-textarea"></textarea>
                     <label for="description">Description</label>
@@ -107,7 +120,7 @@
 
   <div class="row" style="margin-top: 5vh;">
     <% i = 1; %>
-    <% data.forEach(function(item) { %>
+    <%data.forEach(function(item) { %>
     <div class="col s12 m4" style="margin-top: 0.5vh;">
       <div class="card">
         <div class="card-image">
@@ -142,6 +155,7 @@
      $(document).ready(function(){
         $('.modal').modal();
         $('#mobile-nav').sidenav();
+        $('select').formSelect();
       });
   </script>
 </body>
