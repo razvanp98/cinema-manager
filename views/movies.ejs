@@ -125,15 +125,16 @@
       <div class="card">
         <div class="card-image">
           <img class="movie-poster" src="/static/img/<%=item.imgHash%>">
-          <span class="card-title"><p><%= i %>. <%=item.title%></p></span>
-          <a class="btn-floating halfway-fab waves-effect waves-light red" id="card-edit"><i class="material-icons">edit</i></a>
+          <span class="card-title"><p><%=i%>. <%=item.title%></p></span>
+          <a class="modify-btn btn-floating halfway-fab waves-effect waves-light red" id="card-edit-<%=item.id%>"><i class="material-icons">edit</i></a>
         </div>
         <div class="card-content">
           <blockquote><%=item.description%></blockquote>
-          <p class="movie-card-titles">Year: <span class="movie-card-values"><%=item.year%></span></p>
-          <p class="movie-card-titles">Country: <span class="movie-card-values"><%=item.country%></span></p>
-          <p class="movie-card-titles">Director: <span class="movie-card-values"><%=item.director%></span></p>
-          <p class="movie-card-titles">Genre: <span class="movie-card-values"><%=item.genre%></span></p>
+          <p class="modify-helper" hidden><%=item.id%></p>
+          <p class="movie-card-titles" id="year-<%=item.id%>">Year: <span class="movie-card-values"><%=item.year%></span></p>
+          <p class="movie-card-titles" id="country<%=item.d%>">Country: <span class="movie-card-values"><%=item.country%></span></p>
+          <p class="movie-card-titles" id="director-<%=item.id%>">Director: <span class="movie-card-values"><%=item.director%></span></p>
+          <p class="movie-card-titles" id="genre-<%=item.id%>">Genre: <span class="movie-card-values"><%=item.genre%></span></p>
         </div>
       </div>
     </div>
@@ -150,6 +151,24 @@
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!--Modify button script -->
+
+  <script>
+    $('.modify-btn').click((event) => {
+      let titleWithId = $(event.target).closest('a').closest('div').find('.card-title p').text();
+      // Cuts the id in titleWithId
+      let titleFinal = titleWithId.substr(3, titleWithId.length);
+
+      let dataSelector = $(event.target).closest('a').closest('div').closest('.col').find('.card-content');
+      let dataIdIterator = dataSelector.find('.modify-helper').text();
+      let year = dataSelector.find('#year-' + dataIdIterator).find('.movie-card-values').text();
+      let country = dataSelector.find('#country-' + dataIdIterator).find('.movie-card-values').text();
+      let director = dataSelector.find('#director-' + dataIdIterator).find('.movie-card-values').text();
+
+      
+    });
+  </script>
 
   <script>
      $(document).ready(function(){

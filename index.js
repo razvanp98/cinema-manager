@@ -56,15 +56,17 @@ app.get('/movies', (req, res) => {
         if(err) throw err;
     });
 
+    // Get movies from database
     conn.query("SELECT *FROM theatre.movies;", (err, result) => {
         if(err) throw err;
 
         result.forEach((item) => {
-            conn.query(`SELECT *FROM theatre.movie_genre WHERE id_movie = ${item.id_movie};`, (err, result) => {
+            // For every movie get its genre_id from movie_genre table and look them up in genres for their names
+            conn.query(`SELECT name FROM theatre.genres WHERE id_genre IN (SELECT id_genre FROM theatre.movie_genre WHERE id_movie = ${item.id_movie});`, (err, result) => {
+                movie_genre = [];
                 if(err) throw err;
-
                 result.forEach((genre) => {
-                    movie_genre.push(genre.id_genre);
+                    movie_genre.push(genre.name);
                 });
 
                 let movie = new Movie(item.id_movie, item.title, item.year, item.director, movie_genre, item.description, item.origin_country, item.img_hash);
@@ -84,10 +86,12 @@ app.get('/movies', (req, res) => {
         });
     });
 
-    res.render("movies.ejs", {data: data, genres: genres});
-    data = [];
-    movie_genre = [];
-    genres = [];
+    setTimeout ( () => {
+        res.render("movies.ejs", {data: data, genres: genres});
+        data = [];
+        movie_genre = [];
+        genres = [];
+    }, 1500);
 });
 
 app.get('/categories', (req, res) => {
@@ -116,23 +120,27 @@ app.post('/add', upload.single('cover'), (req, res) => {
         '${director}', '${description}', '${country}', '${imgHash}');`, (err) => {
             if(err) throw err;
             console.log("Record added into database!");
+    });
 
-            // Get generated movie ID
-            conn.query(`SELECT *FROM theatre.movies WHERE title = '${title}';`, (err, result) =>{
+    // Get generated movie ID
+    conn.query(`SELECT *FROM theatre.movies WHERE title = '${title}';`, (err, result) =>{
+        if(err) throw err;
+        var id = result[0].id_movie;
+
+        // Insert in movie_genre table movie id for every genre selected in modal
+        for(var i = 0; i < genre.length; i++){
+            conn.query(`INSERT INTO theatre.movie_genre (id_movie, id_genre) VALUES (${id}, ${genre[i]});`, (err) => {
                 if(err) throw err;
-                var id = result[0].id_movie;
-
-                // Inserting into movie_genre table movie id for every genre selected in modal
-                genre.forEach((item) => {
-                    conn.query(`INSERT INTO theatre.movie_genre (id_movie, id_genre) VALUES (${id}, ${item});`, (err) => {
-                        if(err) throw err;
-                    });
-                });
             });
+        }
     });
 
     res.redirect('/');
-}); 
+});
+
+app.post('/modify', (req, res) => {
+
+});
 
 // END ROUTING
 // <===============================
@@ -140,4 +148,4 @@ app.post('/add', upload.single('cover'), (req, res) => {
 // Virtual mounting point set to /static for images, CSS, JS scripts
 
 app.use('/static', express.static(path.join(__dirname, '/public')));
-app.listen(8080);
+app.listen(80);

@@ -6,9 +6,9 @@ class Movie{
         this.director = director;
         this.genre = [];
         // Build genre array
-        genre.forEach((item) => {
-            this.genre.push(item);
-        });
+        for(var i = 0; i < genre.length; i++){
+            this.genre.push(genre[i]);
+        }
         this.description = description;
         this.country = country;
         this.imgHash = img_hash;
