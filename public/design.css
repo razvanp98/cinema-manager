@@ -34,3 +34,9 @@ body{
 .modal::-webkit-scrollbar{
     display: none;
 }
+
+.nav-wrapper{
+    background: #ef6c00;
+    border: none;
+    box-shadow: none;
+}

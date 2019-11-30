@@ -13,12 +13,11 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/static/design.css" rel="stylesheet">
-    
 </head>
-<body class="grey lighten-2">
+<body class="grey darken-4">
         <!--Navbar-->
         <nav>
-          <div class="nav-wrapper teal">
+          <div class="nav-wrapper">
             <a href="/" class="brand-logo" style="margin-left: 20px;">Movies Library</a>
             <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
@@ -35,9 +34,10 @@
 
   <!-- Modal Trigger -->
   <div class="row center">
-  <a class="btn-large btn-floating waves-effect waves-light btn modal-trigger teal darken-2" href="#addModal" style="margin-top: 5vh;"><i class="material-icons">add</i></a>
+  <a class="btn-large btn-floating waves-effect waves-light btn modal-trigger orange darken-3" href="#addModal" style="margin-top: 5vh;"><i class="material-icons">add</i></a>
   </div>
-  <!-- Modal Structure -->
+
+  <!--Add modal-->
   <div id="addModal" class="modal">
     <div class="modal-content">
       <h4 class="center">Add a new movie</h4>
@@ -118,21 +118,88 @@
     </div>
   </div>
 
+<!--Modify modal-->
+  <div id="modifyModal" class="modal">
+    <div class="modal-content">
+      <h4 class="center">Modify content</h4>
+      <div class="row">
+        <form class="m10 s12" action="/modifyMovie" method="post">
+          <div class="row">
+            <div class="input-field m6 s10 offset-s1">
+                <input placeholder="Title" id="titleModif" type="text" class="validate" name="mTitle" required>
+                <label for="title">Title</label>
+            </div>
+          </div>
+
+          <input id="movieId" type="hidden" class="validate" name="id">
+
+          <div class="row">
+              <div class="input-field m6 s10 offset-s1">
+                  <input placeholder="Year of production" id="yearModif" type="text" name="mYear" class="validate" required>
+                  <label for="year">Year</label>
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field m6 s10 offset-s1">
+                    <input placeholder="Director" id="directorModif" type="text"  name="mDirector" class="validate" required>
+                    <label for="director">Director</label>
+                </div>
+            </div>
+
+              <div class="row">
+                  <div class="input-field m6 s10 offset-s1">
+                      <input placeholder="Country" id="countryModif" type="text" name="mCountry" class="validate" required>
+                      <label for="country">Country</label>
+                  </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field m6 s10 offset-s1" id="genreModif">
+                    <select id="genreSelect" name="mGenres" multiple>
+                      <option value="" disabled>Choose genres</option>
+                      <%genres.forEach((item) => { %>
+                      <option id="option-<%=item.id%>" value="<%=item.id%>"><%=item.genre_name%></option>
+                      <% }); %>
+                     
+                    </select>
+                    <label>Genre</label>
+                </div>
+              </div>
+
+              <div class="row">
+                  <div class="input-field m6 s10 offset-s1">
+                    <textarea placeholder="Description" id="descriptionModif" name="mDescription" class="materialize-textarea"></textarea>
+                    <label for="description">Description</label>
+                    </div>
+              </div>
+
+              <div class="row center" style="margin-top: 25px;">
+                  <div class="input-field m8 s10 offset-s1">
+                      <button class="btn btn-large waves-effect waves-light" type="submit">Modify</button>
+                  </div>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <div class="row" style="margin-top: 5vh;">
     <% i = 1; %>
     <%data.forEach(function(item) { %>
-    <div class="col s12 m4" style="margin-top: 0.5vh;">
+    <div class="col s12 m6 l4" style="margin-top: 0.5vh;">
       <div class="card">
         <div class="card-image">
           <img class="movie-poster" src="/static/img/<%=item.imgHash%>">
           <span class="card-title"><p><%=i%>. <%=item.title%></p></span>
-          <a class="modify-btn btn-floating halfway-fab waves-effect waves-light red" id="card-edit-<%=item.id%>"><i class="material-icons">edit</i></a>
+          <a href="#modifyModal" class="modify-btn btn-floating halfway-fab waves-effect waves-light orange darken-3 modal-trigger" id="card-edit-<%=item.id%>"><i class="material-icons">edit</i></a>
         </div>
         <div class="card-content">
-          <blockquote><%=item.description%></blockquote>
+          <blockquote id="descriptionRow"><%=item.description%></blockquote>
+          <p id="movie-id-<%=item.id%>" hidden><%=item.id%></p>
           <p class="modify-helper" hidden><%=item.id%></p>
           <p class="movie-card-titles" id="year-<%=item.id%>">Year: <span class="movie-card-values"><%=item.year%></span></p>
-          <p class="movie-card-titles" id="country<%=item.d%>">Country: <span class="movie-card-values"><%=item.country%></span></p>
+          <p class="movie-card-titles" id="country-<%=item.id%>">Country: <span class="movie-card-values"><%=item.country%></span></p>
           <p class="movie-card-titles" id="director-<%=item.id%>">Director: <span class="movie-card-values"><%=item.director%></span></p>
           <p class="movie-card-titles" id="genre-<%=item.id%>">Genre: <span class="movie-card-values"><%=item.genre%></span></p>
         </div>
@@ -141,14 +208,6 @@
     <% i++; %>
     <% }); %>
   </div>
-
-  <div id="addModal" class="modal">
-    <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
-    </div>
-  </div>
-
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
@@ -162,20 +221,55 @@
 
       let dataSelector = $(event.target).closest('a').closest('div').closest('.col').find('.card-content');
       let dataIdIterator = dataSelector.find('.modify-helper').text();
+  
       let year = dataSelector.find('#year-' + dataIdIterator).find('.movie-card-values').text();
       let country = dataSelector.find('#country-' + dataIdIterator).find('.movie-card-values').text();
       let director = dataSelector.find('#director-' + dataIdIterator).find('.movie-card-values').text();
+      let description = dataSelector.find('#descriptionRow').text();
+      let genres = dataSelector.find('#genre-' + dataIdIterator).find('.movie-card-values').text();
+      let genresArr = genres.split(',');
 
+
+      // Modal fields
+      var modalIterator = $('#modifyModal');
+      var titleInput = modalIterator.find('#titleModif').val(titleFinal).trigger('change');
+      var yearInput = modalIterator.find('#yearModif').val(year).trigger('change');
+      var countryInput = modalIterator.find('#countryModif').val(country).trigger('change');
+      var directorInput = modalIterator.find('#directorModif').val(director).trigger('change');
+      var descriptionInput = modalIterator.find('#descriptionModif').val(description).trigger('change');
+      // Genres parent in modal
+      let genreSelector = modalIterator.find('#genreModif').find('#genreSelect');
+      var genreOption = genreSelector.find('option');
+
+      // Set movie id in Modify Modal
+
+      let id = dataSelector.find('#movie-id-' + dataIdIterator).text();
       
+      $('#modifyModal').find('#movieId').val(id);
+      
+      for(var i = 1; i < genreOption.length; i++){
+        // If value is found, option is selected
+        if(genresArr.indexOf(genreOption[i].innerHTML) != -1){
+          genreOption[i].toggleAttribute('selected', true);
+        }
+      }
     });
   </script>
 
   <script>
      $(document).ready(function(){
-        $('.modal').modal();
+        $('#addModal').modal();
+        $('#modifyModal').modal({
+          onCloseEnd: function(){
+            var genreOptions = $('#modifyModal').find('#genreSelect').find('option');
+            for(var i = 1; i < genreOptions.length; i++){
+              genreOptions[i].toggleAttribute('selected', false);
+            }
+          }
+        });
         $('#mobile-nav').sidenav();
         $('select').formSelect();
-      });
+     });
   </script>
 </body>
 </html>
