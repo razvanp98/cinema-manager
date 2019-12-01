@@ -39,4 +39,5 @@ body{
     background: #ef6c00;
     border: none;
     box-shadow: none;
+    position: fixed;
 }
