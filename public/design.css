@@ -36,8 +36,20 @@ body{
 }
 
 .nav-wrapper{
-    background: #ef6c00;
+    background:#ff6f00;
     border: none;
     box-shadow: none;
     position: fixed;
+}
+
+.sidenav{
+    background: #ff6f00;
+}
+
+#mobile-nav li.active{
+    background: black;
+}
+
+#add-btn{
+    background: #ff6f00;
 }

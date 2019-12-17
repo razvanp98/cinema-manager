@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>All Movies</title>
+    <title>Categories</title>
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
@@ -13,13 +13,12 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/static/design.css" rel="stylesheet">
-    
 </head>
-<body class="grey lighten-2">
+<body class="grey darken-4">
         <!--Navbar-->
         <nav>
-          <div class="nav-wrapper teal">
-            <a href="/" class="brand-logo">Movies Library</a>
+          <div class="nav-wrapper">
+            <a href="/" class="brand-logo" style="margin-left: 20px;">Movies Library</a>
             <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                     <li><a href="/">All Movies</a></li>
@@ -33,28 +32,18 @@
           <li class="active"><a href="/categories">Categories</a></li>
         </ul>
 
-  <div class="row">
-    <div class="col s12 m3 offset-m4">
-      <div class="card">
-        <div class="card-image">
-          <img src="/static/img/merry-christmas.jpg">
-          <span class="card-title"><p>RED DEAD REDEMPTION 2</p></span>
-          <a class="btn-floating halfway-fab waves-effect waves-light red" id="card-edit"><i class="material-icons">edit</i></a>
-        </div>
-        <div class="card-content">
-          <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-        </div>
-      </div>
-    </div>
+  <!-- Modal Trigger -->
+  <div class="row center">
+  <a id="add-btn" class="btn-large btn-floating waves-effect waves-light btn modal-trigger orange darken-3" href="#addModal" style="margin-top: 5vh;"><i class="material-icons">add</i></a>
   </div>
-
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <script>
      $(document).ready(function(){
         $('#mobile-nav').sidenav();
-      });
+     });
   </script>
 </body>
 </html>

@@ -15,6 +15,7 @@ const sql = require('mysql');
 const parser = require('body-parser');
 const multer = require('multer');
 const md5 = require('md5');
+const fs = require('fs');
 
 const app = express();
 
@@ -199,12 +200,50 @@ app.post('/modifyMovie', (req, res) => {
                 resolve();
             });
             insertGenres.then(() => {
-                notification = {
-                    title: mTitle,
-                    modifyStatus: "success"
-                }
-                res.redirect('/', {modif: notification});
+                res.redirect('/');
             })
+        });
+    });
+});
+
+// Delete movie request
+app.post('/deleteMovie', (req, res) => {
+    let movie_id = req.body.movie_id;
+    var conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
+    var hash;
+
+    let getImgHash = new Promise((resolve, reject) => {
+        conn.query(`SELECT img_hash FROM theatre.movies WHERE id_movie = ${movie_id};`, (err, result) => {
+            if(err) throw err;
+            hash = result[0].img_hash;
+            resolve();
+        });
+    });
+
+    // Remove uploaded image from directory /public/img/{img_hash}
+    getImgHash.then(() => {
+        fs.unlink(path.join(__dirname, '/public/img/' + hash), (err) => {
+            if(err) throw err;
+        });
+    });
+
+    let deleteMovie = new Promise((resolve, reject) => {
+        conn.query(`DELETE FROM theatre.movies WHERE id_movie = ${movie_id};`, (err) => {
+            if(err) throw err;
+            resolve();
+        });
+    });
+
+    deleteMovie.then(() => {
+        let deleteGenres = new Promise((resolve, reject) => {
+            conn.query(`DELETE FROM theatre.movie_genre WHERE id_movie = ${movie_id};`, (err) =>{
+                if(err) throw err;
+                resolve();
+            });
+        });
+        
+        deleteGenres.then(() => {
+            res.redirect('/');
         });
     });
 });

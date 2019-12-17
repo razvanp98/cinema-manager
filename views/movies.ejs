@@ -34,7 +34,7 @@
 
   <!-- Modal Trigger -->
   <div class="row center">
-  <a id="add-btn" class="btn-large btn-floating waves-effect waves-light btn modal-trigger orange darken-3" href="#addModal" style="margin-top: 5vh;"><i class="material-icons">add</i></a>
+  <a id="add-btn" class="btn-large btn-floating waves-effect waves-light btn modal-trigger amber darken-4" href="#addModal" style="margin-top: 5vh;"><i class="material-icons">add</i></a>
   </div>
 
   <!--Add modal-->
@@ -187,6 +187,7 @@
   <div class="row" style="margin-top: 5vh;">
     <% i = 1; %>
     <%data.forEach(function(item) { %>
+    <form action="/deleteMovie" method="post">
     <div class="col s12 m6 l4" style="margin-top: 0.5vh;">
       <div class="card">
         <div class="card-image">
@@ -202,9 +203,12 @@
           <p class="movie-card-titles" id="country-<%=item.id%>">Country: <span class="movie-card-values"><%=item.country%></span></p>
           <p class="movie-card-titles" id="director-<%=item.id%>">Director: <span class="movie-card-values"><%=item.director%></span></p>
           <p class="movie-card-titles" id="genre-<%=item.id%>">Genre: <span class="movie-card-values"><%=item.genre%></span></p>
+          <input class="btn-small red darken-3 align-right" type="submit" value="Delete" style="margin-top: 25px">
+          <input type="hidden" name="movie_id" value="<%=item.id%>">
         </div>
       </div>
     </div>
+    </form>
     <% i++; %>
     <% }); %>
   </div>
