@@ -21,7 +21,7 @@
   "homepage": "https://github.com/razvanp98/pai#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "ejs": "^2.7.2",
+    "ejs": "^2.7.4",
     "express": "^4.17.1",
     "image-size": "^0.8.3",
     "jimp": "^0.8.5",

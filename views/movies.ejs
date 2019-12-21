@@ -21,15 +21,15 @@
             <a href="/" class="brand-logo" style="margin-left: 20px;">Movies Library</a>
             <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                    <li class="active"><a href="/">All Movies</a></li>
-                    <li><a href="/categories">Categories</a></li>
+                    <li class="active"><a href="/">Toate filmele</a></li>
+                    <li><a href="/categories">Categorii</a></li>
             </ul>
           </div>
         </nav>
 
         <ul class="sidenav" id="mobile-nav">
-          <li class="active"><a href="/">All Movies</a></li>
-          <li><a href="/categories">Categories</a></li>
+          <li class="active"><a href="/">Toate filmele</a></li>
+          <li><a href="/categories">Categorii</a></li>
         </ul>
 
   <!-- Modal Trigger -->
@@ -40,75 +40,75 @@
   <!--Add modal-->
   <div id="addModal" class="modal">
     <div class="modal-content">
-      <h4 class="center">Add a new movie</h4>
+      <h4 class="center">Adaugă un film</h4>
       <div class="row">
         <form class="col m10 s12" action="/add" method="post" enctype="multipart/form-data">
           <div class="row">
             <div class="input-field m6 s10 offset-s1">
-                <input placeholder="Title" id="title" type="text" class="validate" name="title" required>
-                <label for="title">Title</label>
+                <input placeholder="Titlu" id="title" type="text" class="validate" name="title" required>
+                <label for="title">Titlu</label>
             </div>
           </div>
 
           <div class="row">
               <div class="input-field m6 s10 offset-s1">
-                  <input placeholder="Year of production" id="year" type="text" name="year" class="validate" required>
-                  <label for="year">Year</label>
+                  <input placeholder="Anul producției" id="year" type="text" name="year" class="validate" required>
+                  <label for="year">Anul producției</label>
               </div>
             </div>
 
             <div class="row">
                 <div class="input-field m6 s10 offset-s1">
-                    <input placeholder="Director" id="director" type="text"  name="director" class="validate" required>
-                    <label for="director">Director</label>
+                    <input placeholder="Regizor" id="director" type="text"  name="director" class="validate" required>
+                    <label for="director">Regizor</label>
                 </div>
             </div>
 
               <div class="row">
                   <div class="input-field m6 s10 offset-s1">
-                      <input placeholder="Country" id="country" type="text" name="country" class="validate" required>
-                      <label for="country">Country</label>
+                      <input placeholder="Țară" id="country" type="text" name="country" class="validate" required>
+                      <label for="country">Țară</label>
                   </div>
               </div>
 
               <div class="row">
                 <div class="input-field m6 s10 offset-s1">
                     <select name="genres" multiple>
-                      <option value="" disabled>Choose genres</option>
+                      <option value="" disabled>Alege genuri</option>
                       <%genres.forEach((item) => { %>
                       <option value="<%=item.id%>"><%=item.genre_name%></option>
                       <% }); %>
                      
                     </select>
-                    <label>Genre</label>
+                    <label>Gen</label>
                 </div>
               </div>
 
               <div class="row">
                   <div class="input-field m6 s10 offset-s1">
-                    <textarea placeholder="Description" id="description" name="description" class="materialize-textarea"></textarea>
-                    <label for="description">Description</label>
+                    <textarea placeholder="Descriere" id="description" name="description" class="materialize-textarea"></textarea>
+                    <label for="description">Descriere</label>
                     </div>
               </div>
 
               <div class="row">
-                  <label>Add movie cover</label>
+                  <label></label>
                   <div class = "file-field input-field">
                     <div class = "btn">
-                     <span>Browse</span>
+                     <span>Răsfoiește</span>
                      <input name="cover" type = "file" />
                     </div>
                   
                     <div class = "file-path-wrapper">
                      <input class = "file-path validate" type = "text"
-                        placeholder = "Upload file">
+                        placeholder = "Fișiere...">
                     </div>
                 </div>
               </div>
 
               <div class="row center" style="margin-top: 25px;">
                   <div class="input-field m8 s10 offset-s1">
-                      <button class="btn btn-large waves-effect waves-light" type="submit">Add
+                      <button class="btn btn-large waves-effect waves-light" type="submit">Adaugă
                           <i class="material-icons right">add</i>
                       </button>
                   </div>
@@ -121,13 +121,13 @@
 <!--Modify modal-->
   <div id="modifyModal" class="modal">
     <div class="modal-content">
-      <h4 class="center">Modify content</h4>
+      <h4 class="center">Modifică conținutul</h4>
       <div class="row">
         <form class="m10 s12" action="/modifyMovie" method="post">
           <div class="row">
             <div class="input-field m6 s10 offset-s1">
-                <input placeholder="Title" id="titleModif" type="text" class="validate" name="mTitle" required>
-                <label for="title">Title</label>
+                <input placeholder="Titlu" id="titleModif" type="text" class="validate" name="mTitle" required>
+                <label for="title">Titlu</label>
             </div>
           </div>
 
@@ -135,48 +135,48 @@
 
           <div class="row">
               <div class="input-field m6 s10 offset-s1">
-                  <input placeholder="Year of production" id="yearModif" type="text" name="mYear" class="validate" required>
-                  <label for="year">Year</label>
+                  <input placeholder="Anul producției" id="yearModif" type="text" name="mYear" class="validate" required>
+                  <label for="year">Anul</label>
               </div>
             </div>
 
             <div class="row">
                 <div class="input-field m6 s10 offset-s1">
-                    <input placeholder="Director" id="directorModif" type="text"  name="mDirector" class="validate" required>
-                    <label for="director">Director</label>
+                    <input placeholder="Regizor" id="directorModif" type="text"  name="mDirector" class="validate" required>
+                    <label for="director">Regizor</label>
                 </div>
             </div>
 
               <div class="row">
                   <div class="input-field m6 s10 offset-s1">
-                      <input placeholder="Country" id="countryModif" type="text" name="mCountry" class="validate" required>
-                      <label for="country">Country</label>
+                      <input placeholder="Țară" id="countryModif" type="text" name="mCountry" class="validate" required>
+                      <label for="country">Țară</label>
                   </div>
               </div>
 
               <div class="row">
                 <div class="input-field m6 s10 offset-s1" id="genreModif">
                     <select id="genreSelect" name="mGenres" multiple>
-                      <option value="" disabled>Choose genres</option>
+                      <option value="" disabled>Alege genuri</option>
                       <%genres.forEach((item) => { %>
                       <option id="option-<%=item.id%>" value="<%=item.id%>"><%=item.genre_name%></option>
                       <% }); %>
                      
                     </select>
-                    <label>Genre</label>
+                    <label>Gen</label>
                 </div>
               </div>
 
               <div class="row">
                   <div class="input-field m6 s10 offset-s1">
-                    <textarea placeholder="Description" id="descriptionModif" name="mDescription" class="materialize-textarea"></textarea>
-                    <label for="description">Description</label>
+                    <textarea placeholder="Descriere" id="descriptionModif" name="mDescription" class="materialize-textarea"></textarea>
+                    <label for="description">Descriere</label>
                     </div>
               </div>
 
               <div class="row center" style="margin-top: 25px;">
                   <div class="input-field m8 s10 offset-s1">
-                      <button class="btn btn-large waves-effect waves-light" type="submit">Modify</button>
+                      <button class="btn btn-large waves-effect waves-light" type="submit">Modifică</button>
                   </div>
               </div>
         </form>
@@ -199,11 +199,11 @@
           <blockquote id="descriptionRow"><%=item.description%></blockquote>
           <p id="movie-id-<%=item.id%>" hidden><%=item.id%></p>
           <p class="modify-helper" hidden><%=item.id%></p>
-          <p class="movie-card-titles" id="year-<%=item.id%>">Year: <span class="movie-card-values"><%=item.year%></span></p>
-          <p class="movie-card-titles" id="country-<%=item.id%>">Country: <span class="movie-card-values"><%=item.country%></span></p>
-          <p class="movie-card-titles" id="director-<%=item.id%>">Director: <span class="movie-card-values"><%=item.director%></span></p>
-          <p class="movie-card-titles" id="genre-<%=item.id%>">Genre: <span class="movie-card-values"><%=item.genre%></span></p>
-          <input class="btn-small red darken-3 align-right" type="submit" value="Delete" style="margin-top: 25px">
+          <p class="movie-card-titles" id="year-<%=item.id%>">Anul: <span class="movie-card-values"><%=item.year%></span></p>
+          <p class="movie-card-titles" id="country-<%=item.id%>">Țară: <span class="movie-card-values"><%=item.country%></span></p>
+          <p class="movie-card-titles" id="director-<%=item.id%>">Regizor: <span class="movie-card-values"><%=item.director%></span></p>
+          <p class="movie-card-titles" id="genre-<%=item.id%>">Genuri: <span class="movie-card-values"><%=item.genre%></span></p>
+          <input class="btn-small red darken-3 align-right" type="submit" value="Șterge" style="margin-top: 25px">
           <input type="hidden" name="movie_id" value="<%=item.id%>">
         </div>
       </div>

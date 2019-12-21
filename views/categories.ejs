@@ -21,29 +21,118 @@
             <a href="/" class="brand-logo" style="margin-left: 20px;">Movies Library</a>
             <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                    <li><a href="/">All Movies</a></li>
-                    <li class="active"><a href="/categories">Categories</a></li>
+                    <li><a href="/">Toate filmele</a></li>
+                    <li class="active"><a href="/categories">Categorii</a></li>
             </ul>
           </div>
         </nav>
 
         <ul class="sidenav" id="mobile-nav">
-          <li><a href="/">All Movies</a></li>
-          <li class="active"><a href="/categories">Categories</a></li>
+          <li><a href="/">Toate filmele</a></li>
+          <li class="active"><a href="/categories">Categorii</a></li>
         </ul>
 
   <!-- Modal Trigger -->
   <div class="row center">
-  <a id="add-btn" class="btn-large btn-floating waves-effect waves-light btn modal-trigger orange darken-3" href="#addModal" style="margin-top: 5vh;"><i class="material-icons">add</i></a>
+  <a id="add-btn" class="btn-large btn-floating waves-effect waves-light btn modal-trigger amber darken-4" href="#addModal" style="margin-top: 5vh;"><i class="material-icons">add</i></a>
+  </div>
+
+    <!--Add modal-->
+    <div id="addModal" class="modal">
+      <div class="modal-content">
+        <h4 class="center">Adaugă o categorie nouă</h4>
+        <div class="row">
+          <form class="col m6 s10 offset-s1" action="/addGenre" method="post">
+            <div class="row">
+              <div class="input-field m6 s10 offset-s1">
+                  <input placeholder="Nume gen" id="genre_name_add" type="text" class="validate" name="genre_name" required>
+                  <label for="title">Nume</label>
+              </div>
+            </div>
+                <div class="row" style="margin-top: 25px; margin-bottom: 5px;">
+                    <div class="input-field m4 s10 offset-s1">
+                        <button class="btn btn-small waves-effect waves-light center" type="submit">Adaugă
+                            <i class="material-icons right">add</i>
+                        </button>
+                    </div>
+                </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+     <!--Modify modal-->
+     <div id="modifyModal" class="modal">
+      <div class="modal-content">
+        <h4 class="center">Modifică categoria</h4>
+        <div class="row">
+          <form class="col m6 s10 offset-s1" action="/modifyGenre" method="post">
+            <div class="row">
+              <div class="input-field m6 s10 offset-s1">
+                  <input placeholder="Nume gen" id="genre_name_modify" type="text" class="validate" name="genre_name" required>
+                  <label for="title">Nume</label>
+              </div>
+            </div>
+                <div class="row" style="margin-top: 25px; margin-bottom: 5px;">
+                    <div class="input-field m4 s10 offset-s1">
+                        <button class="btn btn-small waves-effect waves-light center" type="submit">Modifică
+                        </button>
+                    </div>
+                </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+    <div class="col m8 offset-m2 s10 offset-s1">
+    <ul class="collection with-header">
+      <li class="collection-header center"><h4>Categorii filme</h4></li>
+      <% data.forEach((item) => {%>
+        <li class="collection-item"><span><%=item.name%></span>
+          <a href="#modifyModal" id="modify-genre-<%=item.id%>" class="secondary-content tooltipped modal-trigger modify-btns" data-position="top" data-tooltip="Modifică categoria"><i class="material-icons amber-text">edit</i></a>
+          <a href="" id="delete-genre-<%=item.id%>" class="secondary-content tooltipped delete-btns" data-position="top" data-tooltip="Șterge categoria"><i class="material-icons red-text">delete</i></a>
+        </li>
+      <%});%>
+    </ul>
   </div>
   </div>
 
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+  <!--Initializing script-->
   <script>
      $(document).ready(function(){
-        $('#mobile-nav').sidenav();
-     });
+        $('#addModal').modal();
+        $('#modifyModal').modal();
+        $('#mobile-nav').sidenav();     
+        $('.tooltipped').tooltip();
+      });
   </script>
+
+  <!- Delete button listener / Modify button listener-->
+  <script>
+    $('.secondary-content.delete-btns').click((event) => {
+      let idSelector = $(event.target).closest('a').attr('id');
+      let id = idSelector.split('-')[2];
+      data = {id: id}
+      $.ajax({
+          type: 'post',
+          url: '/deleteGenre',
+          data: data,
+          success: (data) => {
+            let status = JSON.parse(data);
+            $(event.target).closest('a').find('li').remove();
+          }
+      });
+    });
+
+    $('.secondary-content.modify-btns').click((event) => {
+        let name_select = $(event.target).closest('a').closest('li').find('span').text();
+        let modify_field = $('#genre_name_modify').val(name_select);
+    });
+  </script>
+
+
 </body>
 </html>

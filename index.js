@@ -38,8 +38,7 @@ var upload = multer({storage: storage});
 app.set('view engine', 'ejs');
 app.use(parser.urlencoded({extended: true}));
 
-// ROUTING BELOW
-// =====================================>
+// ROUTING
 
 app.get('/', (req, res) => {
     res.redirect('/movies');
@@ -104,10 +103,27 @@ app.get('/movies', (req, res) => {
 });
 
 app.get('/categories', (req, res) => {
-    res.render('categories');
-});
+    let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
+    var data = [];
+    let getGenres = new Promise((resolve, reject) => {
+        conn.query("SELECT* FROM theatre.genres;", (err, result) => {
+            if(err) throw err;
 
-// '/add' path
+            result.forEach((item) => {
+                let genre = {
+                    'id': item.id_genre,
+                    'name': item.name
+                };
+                data.push(genre);
+            });
+            resolve();
+        });
+    });
+
+    getGenres.then(() => {
+        res.render('categories', {data: data})
+    });
+});
 
 app.post('/add', upload.single('cover'), (req, res) => {
     let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
@@ -248,8 +264,55 @@ app.post('/deleteMovie', (req, res) => {
     });
 });
 
+app.post('/addGenre', (req, res) => {
+    let genreName = req.body.genre_name;
+    let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
+
+    let insertGenre = new Promise((resolve, reject) => {
+        conn.query(`INSERT INTO theatre.genres (name) VALUES ("${genreName}");`, (err) => {
+            if(err) throw err;
+            resolve();
+        });
+    });
+
+    insertGenre.then(() => {
+        res.redirect('/categories');
+    });
+});
+
+app.post('/modifyGenre', (req, res) => {
+    let genreName = req.body.genre_name;
+    let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
+    let updateGenre = new Promise((resolve, reject) => {
+        conn.query(`UPDATE theatre.`)
+    });
+});
+
+app.post('/deleteGenre', (req, res) => {
+    let id = req.body.id;
+    var conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
+    let deleteGenre = new Promise((resolve, reject) => {
+        conn.query(`DELETE FROM theatre.genres WHERE id_genre = ${id};`, (err) => {
+            if(err) throw err;
+            resolve();
+        });
+    });
+
+    deleteGenre.then(() => {
+        let updateMovieGenre = new Promise((resolve, reject) => {
+            conn.query(`DELETE FROM theatre.movie_genre WHERE id_genre = ${id};`, (err) => {
+                if(err) throw err;
+                resolve();
+            });
+        });
+
+        updateMovieGenre.then(() => {
+            res.send({success: true});
+        });
+    });
+});
+
 // END ROUTING
-// <===============================
 
 // Virtual mounting point set to /static for images, CSS, JS scripts
 
