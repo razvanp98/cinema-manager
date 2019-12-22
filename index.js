@@ -144,7 +144,6 @@ app.post('/add', upload.single('cover'), (req, res) => {
         conn.query(`INSERT INTO theatre.movies (title, year, director, description, origin_country, img_hash) VALUES ('${title}', ${year}, 
         '${director}', '${description}', '${country}', '${imgHash}');`, (err) => {
             if(err) throw err;
-            console.log("Record added into database!");
             resolve();
         });
     });
@@ -282,10 +281,19 @@ app.post('/addGenre', (req, res) => {
 
 app.post('/modifyGenre', (req, res) => {
     let genreName = req.body.genre_name;
+    let genreId = req.body.genre_id;
+
     let conn = sql.createConnection(MYSQL_CREDENTIALS_AUTH);
     let updateGenre = new Promise((resolve, reject) => {
-        conn.query(`UPDATE theatre.`)
+        conn.query(`UPDATE theatre.genres SET name = "${genreName}" WHERE id_genre = ${genreId};`, (err) => {
+            if(err) throw err;
+            resolve();
+        });
     });
+
+    updateGenre.then(() => {
+        res.redirect('/categories'); 
+    })
 });
 
 app.post('/deleteGenre', (req, res) => {
@@ -307,7 +315,7 @@ app.post('/deleteGenre', (req, res) => {
         });
 
         updateMovieGenre.then(() => {
-            res.send({success: true});
+            res.redirect('/categories');
         });
     });
 });

@@ -79,6 +79,7 @@
                         </button>
                     </div>
                 </div>
+            <input class="modifyInputId" type="hidden" name="genre_id" value="" />
           </form>
         </div>
       </div>
@@ -128,8 +129,13 @@
     });
 
     $('.secondary-content.modify-btns').click((event) => {
+        // Get genre name
         let name_select = $(event.target).closest('a').closest('li').find('span').text();
         let modify_field = $('#genre_name_modify').val(name_select);
+        // Get genre id and put it inside modal input field as its value for querying on submit
+
+        let genre_id = $(event.target).closest('a').attr('id').split('-')[2];
+        $('.modifyInputId').val(genre_id);
     });
   </script>
 
