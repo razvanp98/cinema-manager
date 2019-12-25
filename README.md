@@ -1,7 +1,5 @@
 # Cinema Manager
 
-***
-
 ## 1. About this application
 
 * This app is developed for managing movies running in a cinema, allowing user basic operations (add, delete, modify, insert) on movies and their genres. <br>
