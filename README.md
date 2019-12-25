@@ -1,4 +1,8 @@
-# 1. About this application
+# Cinema Manager
+
+***
+
+## 1. About this application
 
 * This app is developed for managing movies running in a cinema, allowing user basic operations (add, delete, modify, insert) on movies and their genres. <br>
 * The app consists of two pages handled by the Node.JS localhost server alongside Express.js framework for routing. <br>
@@ -7,14 +11,12 @@
 
 ***
 
-
-
-# 2. Prerequisites
+## 2. Prerequisites
 
 * Node.JS runtime installed with **NPM** (Node Package Manager)
 * MySQL Server (preferably [MySQL Workbench](https://dev.mysql.com/downloads/file/?id=490395) and **configured for running in Compatibility Mode with MySQL 5.0**)
 
-# 3. How to setup
+## 3. How to setup
 
 _Assuming you have already installed the prerequisites mentioned in **Introduction and prerequisites**, to set up the project, do as mentioned below_: <br>
 
