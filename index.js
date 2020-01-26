@@ -65,6 +65,7 @@ app.get('/movies', (req, res) => {
                 conn.query(`SELECT name FROM theatre.genres WHERE id_genre IN (SELECT id_genre FROM theatre.movie_genre WHERE id_movie = ${item.id_movie});`, (err, result) => {
                     movie_genre = [];
                     if(err) throw err;
+
                     result.forEach((genre) => {
                         movie_genre.push(genre.name);
                     });
